@@ -52,3 +52,8 @@ scp file1 user@ip:/path/to/file2
 # 使用.pem文件验证身份
 scp -i ~/.ssh/xxx.pem  root@123.456.789.0:/etc/nginx/nginx.conf .
 ```
+
+### 获取服务器处理器信息
+```bash
+uname -m
+```
