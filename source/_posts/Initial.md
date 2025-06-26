@@ -168,7 +168,7 @@ db.createUser({ user: 'USER', pwd: 'PASSWORD', roles: ['dbOwner'] })
 ```
 数据库用户角色：read、readWrite
 数据库管理角色：dbAdmin、dbOwner、userAdmin
-集群管理角色：clusterAdmin、clusterManager、4. clusterMonitor、hostManage
+集群管理角色：clusterAdmin、clusterManager、clusterMonitor、hostManager
 备份恢复角色：backup、restore
 所有数据库角色：readAnyDatabase、readWriteAnyDatabase、userAdminAnyDatabase、dbAdminAnyDatabase
 超级用户角色：root
@@ -184,4 +184,9 @@ clusterManager：允许用户执行集群管理操作，但不能对系统和配
 backup：[admin]允许用户执行备份操作。
 restore：[admin]允许用户执行还原操作。
 root：[admin]超级管理员角色，拥有所有数据库和集群的管理权限。
+```
+
+### docker
+```bash
+apt install docker.io
 ```
