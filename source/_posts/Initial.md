@@ -14,6 +14,13 @@ tags:
 ```bash
 brew install git
 ```
+生成公钥
+```bash
+ssh-keygen -t rsa -b 4096 -C "your.email@example.com"
+ssh-keygen -m PEM -t ed25519 -C "your.email@example.com"
+```
+
+
 ### nvm
 [git仓库](https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating)
 ```bash
@@ -29,6 +36,10 @@ export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || pr
 ```bash
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 ```
+
+### docker
+[下载docker desktop](https://www.docker.com/)
+
 ## Ubuntu初始化
 ```bash
 # 更新源
