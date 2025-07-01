@@ -31,6 +31,19 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 ```
+
+### nrm
+```bash
+# 安装
+npm i -g nrm
+# 查看源
+nrm ls
+# 切换源
+nrm use taobao
+# 添加源
+nrm add ks http://npm.corp.kuaishou.com
+```
+
 ### oh my zsh
 [安装教程](https://www.jianshu.com/p/9c3439cc3bdb)
 ```bash
