@@ -18,3 +18,10 @@ tags:
 </router-view>
 ```
 
+> 如果是文件夹下的index.vue文件可以手动指定
+
+```js
+defineOptions({
+  name: 'CompName',
+});
+```
