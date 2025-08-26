@@ -1,7 +1,7 @@
 ---
 title: Flux Kontext
 date: 2025-07-14 13:50:29
-tags:
+tags: ['Flux', 'kontext']
 ---
 
 ## 安装模型

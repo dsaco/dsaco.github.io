@@ -1,7 +1,7 @@
 ---
 title: Flux - prompt
 date: 2025-08-22 11:05:04
-tags:
+tags: ['Flux', 'prompt']
 ---
 
 [flux 官方 prompting 总结](https://docs.bfl.ai/guides/prompting_summary)
