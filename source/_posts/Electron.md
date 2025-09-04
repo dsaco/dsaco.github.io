@@ -32,3 +32,9 @@ npm i -D @electron/rebuild
 2. Error: Could not dynamically require "xxx/electron-app/build/better_sqlite3.node". Please configure the dynamicRequireTargets or/and ignoreDynamicRequires option of @rollup/plugin-commonjs appropriately for this require call to work.
 
 此错误只需要将package.json中的better-sqlite3移动到dependencies即可。
+
+# 打包windows包
+> 手动下载 https://github.com/electron/electron/releases/download/v35.7.5/electron-v35.7.5-win32-arm64.zip
+
+
+# 启动mcp 执行npx命令 参考 cherry-studio
