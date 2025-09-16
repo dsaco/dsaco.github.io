@@ -36,5 +36,7 @@ npm i -D @electron/rebuild
 # 打包windows包
 > 手动下载 https://github.com/electron/electron/releases/download/v35.7.5/electron-v35.7.5-win32-arm64.zip
 
+> windows打包时，除了安装异常外，报权限等错误时，可以管理员身份运行cmd，执行打包
+
 
 # 启动mcp 执行npx命令 参考 cherry-studio
