@@ -366,3 +366,190 @@ img.setTint(0xff0000, 0x00ff00, 0x0000ff, 0xffff00);
 img.setTintFill(0xffffff);
 img.clearTint();
 ```
+
+## 镂空点击事件
+
+```ts
+const hitArea = new Phaser.Geom.Rectangle(
+  0,
+  0,
+  this.scene.scale.width,
+  this.scene.scale.height
+);
+const hitAreaCallback = (area: Phaser.Geom.Rectangle, x: number, y: number) => {
+  if (data.boundsArray) {
+    for (const bound of data.boundsArray) {
+      if (bound.contains(x, y)) {
+        // 点击了高亮区域 穿透点击事件
+        return false;
+      }
+    }
+  }
+  // 点击了遮罩区域 捕获点击事件
+  return true;
+};
+this.guideMask.setInteractive(hitArea, hitAreaCallback);
+```
+## 镂空Demo
+```ts
+interface IHoleConfig {
+  bounds: Phaser.Geom.Rectangle;
+  padding?: number;
+  radius?: number;
+  shape?: 'rect' | 'circle';
+}
+interface IShowConfig {
+  alpha?: number;
+  touchClose?: boolean;
+}
+
+export class GuideMask extends Phaser.GameObjects.Container {
+  private hitArea: Phaser.Geom.Rectangle;
+  private guideMask: Phaser.GameObjects.Graphics;
+  private maskGraphics: Phaser.GameObjects.Graphics;
+
+  private handSprite: Phaser.GameObjects.Sprite;
+  constructor(scene: Phaser.Scene, x: number = 0, y: number = 0) {
+    super(scene, x, y);
+    this.name = 'GuideMaskContainer';
+    this.init();
+  }
+  init() {
+    const { width, height } = this.scene.scale;
+
+    this.hitArea = new Phaser.Geom.Rectangle(0, 0, width, height);
+    this.guideMask = this.scene.add.graphics();
+    this.guideMask.name = 'GuideMask';
+    this.add(this.guideMask);
+
+    this.maskGraphics = this.scene.make.graphics(
+      { fillStyle: { color: 0xffffff } },
+      false
+    );
+
+    // 创建帧动画
+    if (!this.scene.anims.exists('hand_click_anim')) {
+      this.scene.anims.create({
+        key: 'hand_click_anim',
+        frames: [{ key: 'finger_down' }, { key: 'finger_up' }],
+        frameRate: 2.5, // 每秒2.5帧，相当于每帧400ms，总循环800ms
+        repeat: -1, // 无限循环
+        yoyo: false, // 不需要yoyo，因为我们直接在两帧之间切换
+      });
+    }
+
+    // 使用sprite替代image以支持动画
+    this.handSprite = this.scene.add.sprite(0, 0, 'finger_down');
+    this.handSprite.setOrigin(0, 0);
+    this.handSprite.setAlpha(0);
+    this.add(this.handSprite);
+
+    this.setVisible(false);
+    this.scene.add.existing(this);
+  }
+
+  show(holes: IHoleConfig | IHoleConfig[], config?: IShowConfig) {
+    const { alpha = 0.5, touchClose = true } = config;
+
+    const hitAreaCallback = (
+      _: Phaser.Geom.Rectangle,
+      x: number,
+      y: number
+    ) => {
+      return true;
+      if (Array.isArray(holes)) {
+        for (const hole of holes) {
+          if (hole.bounds.contains(x, y)) {
+            return true;
+          }
+        }
+
+        return false;
+      } else {
+        return holes.bounds.contains(x, y);
+      }
+    };
+
+    this.guideMask.clear();
+    this.maskGraphics.clear();
+
+    this.guideMask.fillStyle(0x000000, alpha);
+    this.guideMask.fillRect(0, 0, this.hitArea.width, this.hitArea.height);
+
+    this.guideMask.setInteractive(this.hitArea, hitAreaCallback);
+    this.guideMask.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
+      if (Array.isArray(holes)) {
+        if (holes.some((hole) => hole.bounds.contains(pointer.x, pointer.y))) {
+          this.hide();
+          const hitObjects = this.scene.input.hitTestPointer(pointer);
+          for (const obj of hitObjects) {
+            if (obj !== this.guideMask && obj.input?.enabled) {
+              obj.emit(
+                'pointerdown',
+                pointer,
+                obj.input.localX,
+                obj.input.localY
+              );
+              break;
+            }
+          }
+        }
+      }
+    });
+
+    if (Array.isArray(holes)) {
+      holes.forEach((hole) => this.makeHole(hole));
+      this.handSprite.setPosition(
+        holes[0].bounds.x + holes[0].bounds.width * 0.5,
+        holes[0].bounds.y + holes[0].bounds.height * 0.5
+      );
+    } else {
+      this.makeHole(holes);
+      this.handSprite.setPosition(
+        holes.bounds.x + holes.bounds.width * 0.5,
+        holes.bounds.y + holes.bounds.height * 0.5
+      );
+    }
+    this.handSprite.play('hand_click_anim');
+    this.handSprite.setAlpha(1);
+
+    const highlight = this.maskGraphics.createGeometryMask();
+    highlight.setInvertAlpha(true);
+    this.guideMask.setMask(highlight);
+
+    this.setVisible(true);
+  }
+
+  makeHole(hole: IHoleConfig) {
+    const { bounds, padding = 20, radius = 20, shape = 'rect' } = hole;
+
+    if (shape === 'circle') {
+      this.maskGraphics.fillCircle(
+        bounds.x + bounds.width * 0.5,
+        bounds.y + bounds.height * 0.5,
+        Math.max(bounds.width, bounds.height) * 0.5 + padding
+      );
+    } else {
+      this.maskGraphics.fillRoundedRect(
+        bounds.x - padding,
+        bounds.y - padding,
+        bounds.width + padding * 2,
+        bounds.height + padding * 2,
+        radius
+      );
+    }
+  }
+
+  hide() {
+    if (this.handSprite) {
+      this.handSprite.stop();
+      this.handSprite.setAlpha(0);
+    }
+
+    this.guideMask.removeInteractive();
+    this.guideMask.removeAllListeners();
+
+    this.setVisible(false);
+  }
+}
+```
