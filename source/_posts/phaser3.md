@@ -390,7 +390,9 @@ const hitAreaCallback = (area: Phaser.Geom.Rectangle, x: number, y: number) => {
 };
 this.guideMask.setInteractive(hitArea, hitAreaCallback);
 ```
-## 镂空Demo
+
+## 镂空 Demo
+
 ```ts
 interface IHoleConfig {
   bounds: Phaser.Geom.Rectangle;
@@ -552,4 +554,12 @@ export class GuideMask extends Phaser.GameObjects.Container {
     this.setVisible(false);
   }
 }
+```
+
+## preFX postFX 效果
+
+```ts
+const image = this.add.image(0, 0, 'texture');
+image.preFX?.addGlow(0xffffff, 0, 5, true);
+image.preFX?.addShadow(0x000000, 0, 5);
 ```
