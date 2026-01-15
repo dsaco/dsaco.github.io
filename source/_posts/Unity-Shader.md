@@ -115,3 +115,20 @@ rotated.y = centered.x * s + centered.y * c;
 // 将旋转后的坐标再移回(0, 0)
 float2 uv = rotated + 0.5;
 ```
+
+## shader 使用透明材质
+```
+{
+    Properties
+    {
+    }
+
+    SubShader
+    {
+        Tags { "RenderType" = "Transparent" "RenderPipeline" = "UniversalPipeline" }
+
+        Blend SrcAlpha OneMinusSrcAlpha
+        ZWrite Off
+    }
+}
+```
