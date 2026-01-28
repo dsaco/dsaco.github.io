@@ -1,5 +1,5 @@
 ---
-title: claude-code
+title: Claude-Code
 date: 2025-12-24 09:24:25
 tags:
 ---
@@ -31,6 +31,18 @@ npm install -g @anthropic-ai/claude-code
     "ANTHROPIC_SMALL_FAST_MODEL": "claude-haiku-4-5-20251001"
   }
 }
+# ~/.claude.json
+{
+  // 跳过登录
+  "hasCompletedOnboarding": true,
+}
+```
+
+## cc-switch
+```bash
+# macos 安装 cc-switch
+brew install --cask cc-switch
+# 直接去下载 https://github.com/farion1231/cc-switch/releases
 ```
 
 ## CLI - claude-code-router

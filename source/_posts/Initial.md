@@ -3,36 +3,47 @@ title: 初始化
 date: 2025-06-03 10:41:39
 tags:
 ---
+
 包含Mac及Ubuntu的初始化
 
 ## Mac初始化
+
 ### homebrew
+
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
+
 ### git
+
 ```bash
 brew install git
 ```
+
 生成公钥
+
 ```bash
 ssh-keygen -t rsa -b 4096 -C "your.email@example.com"
 ssh-keygen -m PEM -t ed25519 -C "your.email@example.com"
 ```
 
-
 ### nvm
+
 [git仓库](https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating)
+
 ```bash
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
 ```
+
 > 添加下面代码至 \~/.bash_profile, \~/.zshrc, \~/.profile, \~/.bashrc
+
 ```bash
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 ```
 
 ### nrm
+
 ```bash
 # 安装
 npm i -g nrm
@@ -45,44 +56,59 @@ nrm add ks http://npm.corp.kuaishou.com
 ```
 
 ### oh my zsh
+
 [安装教程](https://www.jianshu.com/p/9c3439cc3bdb)
+
 ```bash
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 ```
 
 ### docker
+
 [下载docker desktop](https://www.docker.com/)
 
 ## Ubuntu初始化
+
 ```bash
 # 更新源
 apt update
 # 生成ssh key
 ssh-keygen -t rsa -C name@name.com
 ```
+
 ### git
+
 ```bash
 apt install git
 ```
+
 ### nvm
+
 ```bash
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
 ```
+
 ### node
+
 ```bash
 nvm install v22
 ```
+
 ### nrm
+
 ```bash
 npm i -g nrm
 ```
 
 ### conda
+
 ```bash
 # 获取当前系统处理器
 uname -m
 ```
+
 [conda安装](https://www.anaconda.com/docs/getting-started/miniconda/install#linux)
+
 ```bash
 mkdir -p ~/miniconda3
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda3/miniconda.sh
@@ -90,11 +116,12 @@ bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
 rm ~/miniconda3/miniconda.sh
 ```
 
-
 ### nginx
+
 ```bash
 apt install nginx
 ```
+
 > 默认配置文件地址 /etc/nginx/nginx.conf
 
 ```bash
@@ -113,11 +140,15 @@ sudo service nginx status
 # 测试配置文件
 sudo nginx -t
 ```
+
 ### redis
+
 ```bash
 apt install redis-server
 ```
+
 > 默认配置文件地址 /etc/redis/redis.conf
+
 ```bash
 # 启动
 sudo systemctl start redis
@@ -139,7 +170,9 @@ config get requirepass
 # 设置密码
 config set requirepass xxxxxx
 ```
+
 配置文件
+
 ```bash
 # 后台启动
 daemonize yes
@@ -155,12 +188,23 @@ netstat -lntp | grep 6379
 kill -9 PID
 ```
 
+> 错误: READONLY You can't write against a read only replica
+
+在 Redis 主从架构中，通常只有主节点（master）允许写操作，而从节点（replica）默认是只读的。
+```bash
+# 
+replica-read-only no
+```
+
 ### mongodb
+
 [官方安装教程](https://www.mongodb.com/zh-cn/docs/manual/tutorial/install-mongodb-on-ubuntu/)
 默认配置文件地址
+
 - conf: /etc/mongod.conf
 - log: /var/log/mongodb/mongod.log
 - dbPath: /var/lib/mongodb
+
 ```bash
 # 启动
 sudo systemctl start mongod
@@ -188,7 +232,9 @@ db.createUser({ user: 'USER', pwd: 'PASSWORD', roles: ['userAdminAnyDatabase'] }
 use DATABASE
 db.createUser({ user: 'USER', pwd: 'PASSWORD', roles: ['dbOwner'] })
 ```
+
 角色
+
 ```
 数据库用户角色：read、readWrite
 数据库管理角色：dbAdmin、dbOwner、userAdmin
@@ -211,6 +257,7 @@ root：[admin]超级管理员角色，拥有所有数据库和集群的管理权
 ```
 
 ### docker
+
 ```bash
 apt install docker.io
 ```
