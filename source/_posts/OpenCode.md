@@ -11,9 +11,21 @@ tags:
 [opencode-antigravity-auth](https://github.com/NoeFabris/opencode-antigravity-auth)
 启用 Opencode 通过 OAuth 认证 Antigravity（谷歌 IDE），这样你就可以使用 Antigravity 的速率限制，并用 Google 凭证访问 gemini-3-pro 和 claude-opus-4-5-thinking 等模型。
 
+## auth配置
+
+`~/.local/share/opencode/auth.json`
+
 ## XDG_CONFIG_HOME
 
 使用此环境变量可以替换opencode默认的路径`~/.config`
+
+## 生效配置文件
+```bash
+# 最终生效配置(合并后)
+opencode bebug config
+# 加载了哪些配置文件路径
+opencode --print-logs --log-level DEBUG debug config
+```
 
 ## 配置文件
 
