@@ -20,6 +20,7 @@ tags:
 使用此环境变量可以替换opencode默认的路径`~/.config`
 
 ## 生效配置文件
+
 ```bash
 # 最终生效配置(合并后)
 opencode bebug config
@@ -113,4 +114,26 @@ opencode --print-logs --log-level DEBUG debug config
 
 - 尽可能调用子代理完成任务
 - 能派给专家的就派，不要什么都自己干
+```
+
+## CLI里模型vision功能
+
+```json
+// provider.modelName.name 同层增加
+{
+  "modalities": {
+    "input": ["text", "image"],
+    "output": ["text"]
+  }
+}
+```
+
+## opencode 指令
+```bash
+# 导出session
+opencode export sessionId > sessionName.json
+# 导入session
+opencode import sessionName.json
+# 删除session
+opencode session delete sessionId
 ```
