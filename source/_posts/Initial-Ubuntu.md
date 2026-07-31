@@ -73,15 +73,30 @@ cd api-proxy-cli
 curl -L -o config.yaml https://raw.githubusercontent.com/router-for-me/CLIProxyAPI/main/config.example.yaml
 # 修改config.yaml
 # 启动
-docker run -d --rm -p 8317:8317 -v ~/api-proxy-cli/config.yaml:/CLIProxyAPI/config.yaml eceasy/cli-proxy-api:latest
+docker run -d --rm -p 8317:8317 -v ~/api-proxy-cli/config.yaml:/CLIProxyAPI/config.yaml  -v /root/.cli-proxy-api:/root/.cli-proxy-api eceasy/cli-proxy-api:latest
 # 访问
 # ip:port/management.html
 
 # 在本机建立 SSH 本地端口转发，把本机的 1455 端口转到远端服务器的 127.0.0.1:1455
 ssh -L 1455:127.0.0.1:1455 root@xx.xx.xx.xx -p 22
+ssh -i ~/.ssh/singapore.pem -L 1455:127.0.0.1:1455 root@43.106.66.197 -p 22
 # oauth 登录codex
 docker exec -it <容器ID或名称> /CLIProxyAPI/CLIProxyAPI --codex-login --no-browser
+docker exec -it 50d287aa0b41 /CLIProxyAPI/CLIProxyAPI --codex-login --no-browser
+
+# 查看容器里的进程ID
+docker exec 50d287aa0b41 ps -ef
+# 杀死容器里的进程
+docker exec 50d287aa0b41 kill <PID>
+
 
 # 启动nginx
 docker run -d --name my-nginx --restart unless-stopped --add-host=host.docker.internal:host-gateway -p 80:80 -v /etc/nginx/nginx.conf:/etc/nginx/nginx.conf nginx:latest
+```
+
+## 安装openclaw
+
+```bash
+npm install -g openclaw@latest
+openclaw --version
 ```
